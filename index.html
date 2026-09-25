@@ -1,0 +1,453 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KeyGati - Typing Speed Test</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        keygati: {
+                            background: "#F1FAEE",
+                            dark: "#264653",
+                            teal: "#2A9D8F",
+                            yellow: "#E9C46A",
+                            orange: "#F4A261",
+                            coral: "#E76F51"
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen bg-keygati-background text-keygati-dark">
+
+    <!-- Main Application -->
+    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-5 sm:px-8">
+
+        <!-- ==================== HEADER ==================== -->
+        <header class="flex items-center justify-between border-b border-keygati-dark/10 py-4">
+
+            <!-- Logo -->
+            <a href="#" class="text-lg font-bold tracking-tight">
+                <span class="text-keygati-teal">key</span><span class="text-keygati-dark">gati</span>
+            </a>
+            
+        </header>
+
+
+        <!-- ==================== TEST SETTINGS ==================== -->
+        <nav
+            aria-label="Typing test settings"
+            class="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-keygati-dark/60"
+        >
+
+            <!-- Test Mode -->
+            <button
+                type="button"
+                class="rounded-md bg-keygati-teal/10 px-3 py-2 text-keygati-teal"
+            >
+                ◷ Time
+            </button>
+
+            <button
+                type="button"
+                class="rounded-md px-3 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                ▥ Words
+            </button>
+
+            <button
+                type="button"
+                class="rounded-md px-3 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                ≋ Quote
+            </button>
+
+            <button
+                type="button"
+                class="rounded-md px-3 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                ⌘ Zen
+            </button>
+
+            <span class="mx-2 hidden h-4 w-px bg-keygati-dark/10 sm:block"></span>
+
+            <!-- Duration Options -->
+            <button
+                id="duration-15"
+                type="button"
+                class="rounded-md px-2 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                15
+            </button>
+
+            <button
+                id="duration-30"
+                type="button"
+                class="rounded-md bg-keygati-teal px-2 py-2 text-white"
+            >
+                30
+            </button>
+
+            <button
+                id="duration-60"
+                type="button"
+                class="rounded-md px-2 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                60
+            </button>
+
+            <button
+                id="duration-120"
+                type="button"
+                class="rounded-md px-2 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                120
+            </button>
+
+            <span class="mx-2 hidden h-4 w-px bg-keygati-dark/10 sm:block"></span>
+
+            <!-- Additional Settings -->
+            <button
+                type="button"
+                class="rounded-md px-3 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                ▤ Punct
+            </button>
+
+            <button
+                type="button"
+                class="rounded-md px-3 py-2 transition-colors hover:bg-keygati-teal/10"
+            >
+                # Numbers
+            </button>
+
+        </nav>
+
+
+        <!-- ==================== STATISTICS ==================== -->
+        <section
+            aria-label="Typing statistics"
+            class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4"
+        >
+
+            <!-- Net WPM -->
+            <div class="rounded-md bg-white/50 p-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-[10px] uppercase tracking-wide text-keygati-dark/60">
+                        Net WPM
+                    </p>
+
+                    <span class="text-xs text-keygati-teal">↗</span>
+                </div>
+
+                <p id="wpm-value" class="mt-1 text-3xl font-semibold tracking-tight">
+                    0<span class="text-sm text-keygati-dark/40"> wpm</span>
+                </p>
+            </div>
+
+
+            <!-- Accuracy -->
+            <div class="rounded-md bg-white/50 p-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-[10px] uppercase tracking-wide text-keygati-dark/60">
+                        Accuracy
+                    </p>
+
+                    <span class="text-xs text-keygati-teal">%</span>
+                </div>
+
+                <p 
+                    id="accuracy-value"
+                    class="mt-1 text-3xl font-semibold tracking-tight">
+                    100<span class="text-sm text-keygati-dark/40">%</span>
+                </p>
+            </div>
+
+
+            <!-- Time Left -->
+            <div class="rounded-md bg-white/50 p-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-[10px] uppercase tracking-wide text-keygati-dark/60">
+                        Time Left
+                    </p>
+
+                    <span class="text-xs text-keygati-teal">◷</span>
+                </div>
+
+                <p 
+                    id="time-value"
+                    class="mt-1 text-3xl font-semibold tracking-tight">
+                    30<span class="text-sm text-keygati-dark/40">s</span>
+                </p>
+            </div>
+
+
+            <!-- Character Stats -->
+            <div class="rounded-md bg-white/50 p-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-[10px] uppercase tracking-wide text-keygati-dark/60">
+                        Char Stats
+                    </p>
+
+                    <span class="text-xs text-keygati-teal">[]</span>
+                </div>
+
+                <p 
+                    id="char-stats-value"
+                    class="mt-1 text-2xl font-semibold tracking-tight">
+                    0
+                    <span class="text-sm text-keygati-coral">/ 0</span>
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ==================== TYPING AREA ==================== -->
+        <main class="mt-5 flex flex-1 flex-col">
+
+            <!-- Test Duration Label -->
+            <div class="relative mx-auto -mb-px w-fit rounded-t-md border border-b-0 border-keygati-dark/10 bg-white/70 px-4 py-2">
+                <p class="text-[10px] uppercase tracking-wider text-keygati-dark/50">
+                    Test Duration
+                </p>
+            </div>
+
+
+            <!-- Typing Text Container -->
+            <section
+                aria-label="Typing passage"
+                class="rounded-md border border-keygati-dark/10 bg-white/70 p-6 sm:p-8"
+            >
+
+                <p
+                    id="typing-text"
+                    class="typing-text text-lg leading-[2.1] tracking-wide sm:text-xl">
+                </p>
+
+
+                <!-- Typing Status -->
+                <div class="mt-8 flex flex-wrap items-center justify-between gap-3">
+
+                    <p class="flex items-center gap-2 text-[10px] text-keygati-teal">
+                        <span class="h-1.5 w-1.5 rounded-full bg-keygati-teal"></span>
+                        In active flow session
+                    </p>
+
+                    <p class="text-[10px] text-keygati-dark/45">
+                        Click anywhere to refocus
+                        <span class="ml-1 rounded bg-keygati-dark/5 px-1.5 py-1">
+                            ESC
+                        </span>
+                        to pause
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- Hidden Input Placeholder -->
+            <!-- JavaScript functionality will be added later -->
+            <textarea
+                id="typing-input"
+                aria-label="Typing input"
+                class="absolute h-0 w-0 opacity-0"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                tabindex="0"
+            ></textarea>
+
+
+            <!-- ==================== TEST CONTROLS ==================== -->
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
+
+                <div class="flex items-center gap-2">
+
+                    <!-- Restart Button -->
+                    <button
+                        id="restart-button"
+                        type="button"
+                        class="rounded-md bg-keygati-dark px-4 py-2 text-xs font-medium text-keygati-background transition-colors hover:bg-keygati-teal"
+                    >
+                        ↻ Restart
+                        <span class="ml-2 rounded bg-white/10 px-1.5 py-0.5 text-[10px]">
+                            Tab
+                        </span>
+                    </button>
+
+
+                    <!-- New Passage Button -->
+                    <button
+                        id="new-passage-button"
+                        type="button"
+                        class="rounded-md bg-keygati-dark/5 px-4 py-2 text-xs text-keygati-dark/70 transition-colors hover:bg-keygati-teal/10"
+                    >
+                        ♻ New Passage
+                    </button>
+
+
+                    <!-- Fullscreen Button -->
+                    <button
+                        id="fullscreen-button"
+                        type="button"
+                        aria-label="Fullscreen"
+                        class="rounded-md bg-keygati-dark/5 px-3 py-2 text-xs text-keygati-dark/70 transition-colors hover:bg-keygati-teal/10"
+                    >
+                        ⛶
+                    </button>
+
+                </div>
+
+
+                <!-- Quote -->
+                <p class="text-xs italic text-keygati-dark/45">
+                    "Embrace rhythm; find your flow."
+                </p>
+
+            </div>
+
+        </main>
+
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="flex flex-col items-center justify-between gap-3 border-t border-keygati-dark/10 py-5 text-[10px] text-keygati-dark/45 sm:flex-row">
+
+            <p>
+                © 2026 KeyGati. Mazza le type garau.
+            </p>
+
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+
+<!-- Results Popup -->
+<div
+    id="results-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-keygati-dark/60 px-4"
+>
+    <div
+        class="w-full max-w-md rounded-xl bg-keygati-bg p-6 shadow-2xl"
+    >
+
+        <!-- Heading -->
+
+        <div class="text-center">
+
+            <p
+                class="text-xs font-semibold uppercase tracking-widest text-keygati-teal"
+            >
+                Test Complete
+            </p>
+
+            <h2
+                class="mt-2 text-3xl font-semibold text-keygati-dark"
+            >
+                Your Results
+            </h2>
+
+        </div>
+
+
+        <!-- Results -->
+
+        <div class="mt-6 grid grid-cols-2 gap-3">
+
+            <!-- WPM -->
+
+            <div class="rounded-lg bg-white/60 p-4 text-center">
+
+                <p
+                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
+                >
+                    WPM
+                </p>
+
+                <p
+                    id="result-wpm"
+                    class="mt-1 text-3xl font-semibold text-keygati-dark"
+                >
+                    0
+                </p>
+
+            </div>
+
+
+            <!-- Accuracy -->
+
+            <div class="rounded-lg bg-white/60 p-4 text-center">
+
+                <p
+                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
+                >
+                    Accuracy
+                </p>
+
+                <p
+                    id="result-accuracy"
+                    class="mt-1 text-3xl font-semibold text-keygati-dark"
+                >
+                    100%
+                </p>
+
+            </div>
+
+
+            <!-- Characters -->
+
+            <div class="col-span-2 rounded-lg bg-white/60 p-4 text-center">
+
+                <p
+                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
+                >
+                    Characters
+                </p>
+
+                <p
+                    id="result-characters"
+                    class="mt-1 text-2xl font-semibold text-keygati-dark"
+                >
+                    0 / 0
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Restart -->
+
+        <button
+            id="result-restart-button"
+            class="mt-6 w-full rounded-lg bg-keygati-teal px-5 py-3 text-sm font-semibold text-white transition hover:bg-keygati-dark"
+        >
+            Restart Test
+        </button>
+
+    </div>
+</div>
+
+
+</body>
+</html>

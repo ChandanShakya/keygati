@@ -1,0 +1,56 @@
+```css
+/* ================================
+   KeyGati - Global Styles
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Typing text uses a monospace font */
+
+.typing-text {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 500;
+    word-spacing: 0.35rem;
+}
+
+/* Remove the default textarea outline */
+
+textarea:focus {
+    outline: none;
+}
+
+/* Improve keyboard focus visibility */
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #2A9D8F;
+    outline-offset: 3px;
+}
+
+/* Prevent text selection on interface controls */
+
+button {
+    user-select: none;
+}
+
+/* Mobile typing text adjustment */
+
+@media (max-width: 640px) {
+    .typing-text {
+        font-size: 1rem;
+        line-height: 2;
+        word-spacing: 0.2rem;
+    }
+}
+```

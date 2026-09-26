@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
         timeLeft = testDuration;
 
         started = false;
+        testFinished = false;
 
 
         /* Reset display */
@@ -327,6 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
         totalCorrectCharacters = 0;
 
         started = false;
+        testFinished = false;
 
         timeValue.textContent =
             testDuration + "s";
@@ -541,6 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 timer = null;
 
                 started = false;
+                testFinished = true;
 
                 console.log("TEST FINISHED");
 
@@ -707,6 +710,10 @@ document.addEventListener("DOMContentLoaded", function () {
     ================================ */
 
     document.addEventListener("keydown", function (event) {
+
+        if (testFinished) {
+            return;
+        }
 
         console.log("KEY PRESSED:", event.key);
 

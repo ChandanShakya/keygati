@@ -223,7 +223,7 @@
         <main class="mt-5 flex flex-1 flex-col">
 
             <!-- Test Duration Label -->
-            <div class="relative mx-auto -mb-px w-fit rounded-t-md border border-b-0 border-keygati-dark/10 bg-white/70 px-4 py-2">
+            <div class="relative mx-auto -mb-px w-fit rounded-t-md border border-b-0 border-keygati-dark/10 bg-white/50 px-4 py-2">
                 <p class="text-[10px] uppercase tracking-wider text-keygati-dark/50">
                     Test Duration
                 </p>
@@ -296,7 +296,7 @@
 
                 <!-- Quote -->
                 <p class="text-xs italic text-keygati-dark/45">
-                    "Embrace rhythm; find your flow."
+                    "Type with purpose. Let speed follow."
                 </p>
 
             </div>
@@ -318,111 +318,114 @@
     <script src="script.js"></script>
 
 <!-- Results Popup -->
+
 <div
     id="results-modal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-keygati-dark/60 px-4"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-keygati-dark/70 px-4 backdrop-blur-sm"
 >
     <div
-        class="w-full max-w-md rounded-xl bg-keygati-bg p-6 shadow-2xl"
+        class="w-full max-w-md rounded-xl border border-keygati-dark/10 bg-keygati-background p-6 shadow-2xl sm:p-8"
     >
 
-        <!-- Heading -->
+    <!-- Header -->
+    <div class="border-b border-keygati-dark/10 pb-5 text-center">
 
-        <div class="text-center">
-
-            <p
-                class="text-xs font-semibold uppercase tracking-widest text-keygati-teal"
-            >
-                Test Complete
-            </p>
-
-            <h2
-                class="mt-2 text-3xl font-semibold text-keygati-dark"
-            >
-                Your Results
-            </h2>
-
-        </div>
-
-
-        <!-- Results -->
-
-        <div class="mt-6 grid grid-cols-2 gap-3">
-
-            <!-- WPM -->
-
-            <div class="rounded-lg bg-white/60 p-4 text-center">
-
-                <p
-                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
-                >
-                    WPM
-                </p>
-
-                <p
-                    id="result-wpm"
-                    class="mt-1 text-3xl font-semibold text-keygati-dark"
-                >
-                    0
-                </p>
-
-            </div>
-
-
-            <!-- Accuracy -->
-
-            <div class="rounded-lg bg-white/60 p-4 text-center">
-
-                <p
-                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
-                >
-                    Accuracy
-                </p>
-
-                <p
-                    id="result-accuracy"
-                    class="mt-1 text-3xl font-semibold text-keygati-dark"
-                >
-                    100%
-                </p>
-
-            </div>
-
-
-            <!-- Characters -->
-
-            <div class="col-span-2 rounded-lg bg-white/60 p-4 text-center">
-
-                <p
-                    class="text-xs uppercase tracking-wide text-keygati-dark/60"
-                >
-                    Characters
-                </p>
-
-                <p
-                    id="result-characters"
-                    class="mt-1 text-2xl font-semibold text-keygati-dark"
-                >
-                    0 / 0
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- Restart -->
-
-        <button
-            id="result-restart-button"
-            class="mt-6 w-full rounded-lg bg-keygati-teal px-5 py-3 text-sm font-semibold text-white transition hover:bg-keygati-dark"
+        <p
+            class="text-[10px] font-semibold uppercase tracking-[0.25em] text-keygati-teal"
         >
-            Restart Test
-        </button>
+            Test Complete
+        </p>
+
+        <h2
+            class="mt-2 text-3xl font-semibold tracking-tight text-keygati-dark"
+        >
+            Your Results
+        </h2>
 
     </div>
-</div>
 
+
+    <!-- Main WPM Result -->
+    <div class="py-8 text-center">
+
+        <p
+            id="result-wpm"
+            class="text-6xl font-semibold tracking-tight text-keygati-dark"
+        >
+            0
+        </p>
+
+        <p
+            class="mt-1 text-xs uppercase tracking-[0.2em] text-keygati-dark/50"
+        >
+            Words Per Minute
+        </p>
+
+    </div>
+
+
+    <!-- Secondary Results -->
+    <div
+        class="grid grid-cols-2 divide-x divide-keygati-dark/10"
+
+        <!-- Accuracy -->
+        <div class="p-4 text-center">
+
+            <p
+                class="text-[10px] uppercase tracking-wider text-keygati-dark/50"
+            >
+                Accuracy
+            </p>
+
+            <p
+                id="result-accuracy"
+                class="mt-2 text-2xl font-semibold text-keygati-teal"
+            >
+                100%
+            </p>
+
+        </div>
+
+
+        <!-- Characters -->
+        <div class="p-4 text-center">
+
+            <p
+                class="text-[10px] uppercase tracking-wider text-keygati-dark/50"
+            >
+                Characters
+            </p>
+
+            <p
+                id="result-characters"
+                class="mt-2 text-2xl font-semibold text-keygati-dark"
+            >
+                0 / 0
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quote -->
+    <p
+        class="mt-6 text-center text-xs italic text-keygati-dark/45"
+    >
+        "Accuracy first. Speed follows my brother."
+    </p>
+
+
+    <!-- Restart -->
+    <button
+        id="result-restart-button"
+        type="button"
+        class="mt-6 w-full rounded-lg bg-keygati-dark px-5 py-3 text-xs font-medium text-keygati-background transition-colors hover:bg-keygati-teal"
+    >
+        ↻ Restart Test
+    </button>
+
+</div>
 
 </body>
 </html>

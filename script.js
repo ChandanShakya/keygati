@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (i >= typedText.length) {
 
                 html +=
-                    `<span class="text-keygati-dark/50">${character}</span>`;
+                    `<span class="text-keygati-dark/70">${character}</span>`;
 
             }
 

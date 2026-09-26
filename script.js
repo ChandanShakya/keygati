@@ -249,6 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let timeLeft = testDuration;
     let started = false;
     let timer = null;
+    let testFinished = false;
 
     /* ================================
     RESTART

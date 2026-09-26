@@ -243,6 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let passage = "";
     let typedText = "";
+    let totalTypedCharacters = 0;
+    let totalCorrectCharacters = 0;
     let testDuration = 30;
     let timeLeft = testDuration;
     let started = false;
@@ -266,6 +268,9 @@ document.addEventListener("DOMContentLoaded", function () {
         /* Reset test */
 
         typedText = "";
+
+        totalTypedCharacters = 0;
+        totalCorrectCharacters = 0;
 
         timeLeft = testDuration;
 
@@ -316,6 +321,10 @@ document.addEventListener("DOMContentLoaded", function () {
         timeLeft = testDuration;
 
         typedText = "";
+
+        totalTypedCharacters = 0;
+        totalCorrectCharacters = 0;
+
         started = false;
 
         timeValue.textContent =
@@ -461,9 +470,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (let i = 0; i < passage.length; i++) {
 
-            const character = passage[i];
+            // Cursor at current typing position
+            if (i === typedText.length) {
 
-            /* Not typed yet */
+                html +=
+                    `<span class="typing-cursor"></span>`;
+            }
+
+            const character = passage[i];
 
             if (i >= typedText.length) {
 
@@ -472,8 +486,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
-            /* Correct character */
-
             else if (typedText[i] === character) {
 
                 html +=
@@ -481,14 +493,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
 
-            /* Incorrect character */
-
             else {
 
                 html +=
                     `<span class="text-keygati-coral">${character}</span>`;
 
             }
+        }
+
+        // Cursor at the very end when passage is completed
+        if (typedText.length >= passage.length) {
+
+            html +=
+                `<span class="typing-cursor"></span>`;
         }
 
         typingText.innerHTML = html;
@@ -568,16 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function getCorrectCharacters() {
 
-        let correct = 0;
-
-        for (let i = 0; i < typedText.length; i++) {
-
-            if (typedText[i] === passage[i]) {
-                correct++;
-            }
-        }
-
-        return correct;
+        return totalCorrectCharacters;
     }
 
     /* ================================
@@ -587,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateAccuracy() {
 
         const totalCharacters =
-            typedText.length;
+            totalTypedCharacters;
 
         if (totalCharacters === 0) {
 
@@ -618,7 +626,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateCharacterStats() {
 
         const totalCharacters =
-            typedText.length;
+            totalTypedCharacters;
 
         const correctCharacters =
             getCorrectCharacters();
@@ -642,7 +650,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getCorrectCharacters();
 
         const totalCharacters =
-            typedText.length;
+            totalTypedCharacters;
 
 
         /* Calculate accuracy */
@@ -710,15 +718,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (typedText.length > 0) {
 
-                typedText =
-                    typedText.slice(0, -1);
+                    const lastIndex =
+                        typedText.length - 1;
 
-            }
+                    /* Check if the character being removed was correct */
+
+                    if (typedText[lastIndex] === passage[lastIndex]) {
+                        totalCorrectCharacters--;
+                    }
+
+                    totalTypedCharacters--;
+
+                    typedText =
+                        typedText.slice(0, -1);
+
+                }
 
             renderPassage();
 
+            updateAccuracy();
+
             updateCharacterStats();
-            
+
             updateWPM();
 
             return;
@@ -742,36 +763,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         /* Normal character */
-
         if (event.key.length === 1) {
 
-            /*
-             * Don't allow typing beyond
-             * the passage length.
-             */
-
-            if (typedText.length >= passage.length) {
-
-                selectRandomPassage();
-
-                typedText = "";
-
-                renderPassage();
-
-                return;
-            }
-
+            /* Add typed character */
 
             typedText += event.key;
+
+            totalTypedCharacters++;
+
+            /* Check if the character is correct */
+
+            const currentIndex =
+                typedText.length - 1;
+
+            if (event.key === passage[currentIndex]) {
+
+                totalCorrectCharacters++;
+
+            }
 
             console.log(
                 "TYPED:",
                 typedText
             );
 
-            if (typedText.length === passage.length) {
 
-                renderPassage();
+            /* Start timer on first character */
+
+            if (!started) {
+
+                startTimer();
+
+            }
+
+
+            /* Update statistics */
+
+            renderPassage();
+
+            updateAccuracy();
+
+            updateCharacterStats();
+
+            updateWPM();
+
+
+            /* Check if passage is complete */
+
+            if (typedText.length === passage.length) {
 
                 setTimeout(function () {
 
@@ -783,22 +822,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }, 100);
 
-                return;
             }
 
-
-            if (!started) {
-                startTimer();
-            }
-
-
-            renderPassage();
-
-            updateAccuracy();
-            
-            updateCharacterStats();
-            
-            updateWPM();
         }
 
     });

@@ -1,4 +1,4 @@
-```css
+
 /* ================================
    KeyGati - Global Styles
 ================================ */
@@ -53,4 +53,30 @@ button {
         word-spacing: 0.2rem;
     }
 }
-```
+
+/* Typing cursor */
+
+.typing-cursor {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.typing-cursor::after {
+    content: "";
+    position: absolute;
+    width: 0.65em;
+    height: 2px;
+    background-color: #2A9D8F;
+    left: 0;
+    top: 0em;
+    animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+    50% {
+        opacity: 0;
+    }
+}

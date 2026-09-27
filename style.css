@@ -22,6 +22,10 @@ body {
     font-family: "Courier New", Courier, monospace;
     font-weight: 500;
     word-spacing: 0.35rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+    max-width: 100%;
 }
 
 /* Remove the default textarea outline */

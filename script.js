@@ -2,6 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("KEYGATI STARTED");
 
+    document.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+
+        if (button) {
+            button.blur();
+        }
+    });
+
     const typingText = document.getElementById("typing-text");
     const wpmValue = document.getElementById("wpm-value");
     const timeValue = document.getElementById("time-value");
@@ -711,6 +719,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("keydown", function (event) {
 
+        if (document.activeElement instanceof HTMLButtonElement) {
+            return;
+        }
+        
         if (testFinished) {
             return;
         }

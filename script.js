@@ -2,252 +2,277 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("KEYGATI STARTED");
 
-    document.addEventListener("click", (event) => {
-        const button = event.target.closest("button");
+        document.addEventListener("click", (event) => {
+            const button = event.target.closest("button");
 
-        if (button) {
-            button.blur();
-        }
-    });
+            if (button) {
+                button.blur();
+            }
+        });
 
-    const typingText = document.getElementById("typing-text");
-    const wpmValue = document.getElementById("wpm-value");
-    const timeValue = document.getElementById("time-value");
-    const accuracyValue = document.getElementById("accuracy-value");
-    const restartButton = document.getElementById("restart-button");
-    const charStatsValue = document.getElementById("char-stats-value");
+        const typingText = document.getElementById("typing-text");
+        const wpmValue = document.getElementById("wpm-value");
+        const timeValue = document.getElementById("time-value");
+        const accuracyValue = document.getElementById("accuracy-value");
+        const restartButton = document.getElementById("restart-button");
+        const charStatsValue = document.getElementById("char-stats-value");
 
-    const duration15Button = document.getElementById("duration-15");
-    const duration30Button = document.getElementById("duration-30");
-    const duration60Button = document.getElementById("duration-60");
-    const duration120Button = document.getElementById("duration-120");
+        const duration15Button = document.getElementById("duration-15");
+        const duration30Button = document.getElementById("duration-30");
+        const duration60Button = document.getElementById("duration-60");
+        const duration120Button = document.getElementById("duration-120");
+        
+        
+        const resultsModal =
+            document.getElementById("results-modal");
+
+        const resultWpm =
+            document.getElementById("result-wpm");
+
+        const resultAccuracy =
+            document.getElementById("result-accuracy");
+
+        const resultCharacters =
+            document.getElementById("result-characters");
+
+        const resultRestartButton =
+            document.getElementById("result-restart-button");
     
-    
-    const resultsModal =
-        document.getElementById("results-modal");
+        const passages = [
 
-    const resultWpm =
-        document.getElementById("result-wpm");
+            "Rain began falling just before midnight, turning the quiet streets into mirrors of yellow streetlights and glowing shop signs. Most people had already gone home, but one small tea shop remained open at the corner of the road.",
 
-    const resultAccuracy =
-        document.getElementById("result-accuracy");
+            "The old house stood at the end of a narrow road, surrounded by tall trees and wild grass. Nobody had lived there for years, yet every evening a warm light appeared behind one of the upstairs windows.",
 
-    const resultCharacters =
-        document.getElementById("result-characters");
+            "At sunrise, the mountain looked completely different from the night before. Thin clouds moved slowly across the valley while the first rays of sunlight touched the snowy peaks one by one.",
 
-    const resultRestartButton =
-        document.getElementById("result-restart-button");
-   
-    const passages = [
+            "A small wooden boat drifted across the lake without making much noise. The water was so calm that the reflection of the mountains looked almost identical to the mountains themselves.",
 
-        "The best way to improve your typing speed is to practice regularly and focus on accuracy before trying to type faster.",
+            "The train left the station at exactly six in the morning. Inside the nearly empty carriage, a few passengers watched the city disappear behind them as the landscape slowly changed from buildings to fields.",
 
-        "Technology has changed the way people communicate, work, and learn. New tools continue to make everyday tasks faster and easier.",
+            "The smell of freshly baked bread filled the narrow street before most of the shops had opened. A baker stood outside his store carrying a tray of warm pastries while curious customers waited nearby.",
 
-        "Small improvements made consistently over time can lead to significant results. The key is to practice regularly and remain patient.",
+            "The village became unusually quiet after the storm passed. Leaves covered the roads, small streams ran beside the houses, and the air smelled fresh after hours of heavy rain.",
 
-        "Good communication is an important skill in both personal and professional life. Clear writing helps people understand ideas more easily.",
+            "A fisherman noticed something unusual floating near the shore. At first he thought it was a piece of wood, but when he moved closer, he realized that a small wooden box was drifting toward him.",
 
-        "Learning something new can feel difficult at first, but regular practice makes unfamiliar tasks gradually become easier and more natural.",
+            "The night sky was unusually clear, and thousands of stars were visible above the dark hills. Far away, a dog barked occasionally while the sound of a river could be heard below the campsite.",
 
-        "Octopuses have three hearts, and two of their hearts pump blood toward their gills. Their third heart pumps blood to the rest of their body.",
+            "A young traveler arrived in the city with one backpack, a paper map, and no real plan. He spent the afternoon walking through unfamiliar streets, trying local food and taking photographs of buildings he had never seen before.",
 
-        "A group of flamingos is called a flamboyance. These colorful birds often stand on one leg, although scientists are still studying why this is so comfortable for them.",
+            "The market was already crowded when Maya arrived. Vendors shouted prices from every direction, motorbikes carefully moved through the narrow streets, and the smell of spices filled the air.",
 
-        "Cows have best friends and can become stressed when they are separated from animals they are particularly close to.",
+            "A sudden power cut turned the busy restaurant completely dark. For a few seconds nobody spoke. Then someone started laughing, and soon the entire room was filled with conversations and the sound of people trying to find their phones.",
 
-        "Sea otters sometimes hold hands while sleeping in the water. This behavior can help them stay together while floating on the surface.",
+            "The library had a strange atmosphere after sunset. The building was almost empty, the old wooden floors creaked occasionally, and the sound of pages turning seemed unusually loud in the quiet room.",
 
-        "A snail can have thousands of tiny teeth arranged along a structure called a radula. Despite their small size, some snails have remarkably complex mouths.",
+            "A package arrived without a return address. It was wrapped in brown paper and tied with a thin piece of string. There was only one word written on the front: Tomorrow.",
 
-        "Elephants can recognize themselves in mirrors, which is considered an interesting sign of self awareness in animals.",
+            "The lighthouse had been standing on the rocky island for more than a hundred years. Every night its bright beam crossed the dark ocean, warning ships about the dangerous cliffs below.",
 
-        "Crows are remarkably intelligent birds. They can solve certain problems, remember faces, and use objects as tools to accomplish tasks.",
+            "The smell of rain reached the city before the first drops appeared. People hurried along the sidewalks, shopkeepers moved their signs indoors, and umbrellas suddenly appeared everywhere.",
 
-        "Penguins cannot fly through the air, but their wings have evolved into powerful flippers that help them move quickly underwater.",
+            "A fox appeared near the edge of the forest just before dawn. It stopped for a moment, looked toward the distant road, and then quietly disappeared between the trees.",
 
-        "Some frogs can survive being partially frozen during winter and later recover when temperatures rise again.",
+            "Deep inside the forest, there was a lake that did not appear on most maps. The water was perfectly clear, and according to local stories, nobody knew how deep it really was.",
 
-        "Giraffes have long necks, but they have the same number of neck bones as humans. Both species normally have seven cervical vertebrae.",
+            "The museum displayed hundreds of objects from different centuries. Among them was a small metal key that looked ordinary, although the description beside it claimed that it had once opened the door of a royal library.",
 
-        "Nepal is home to Mount Everest, the highest mountain above sea level. The mountain stands in the Himalayas along the Nepal and China border.",
+            "A tiny café opened on a street where almost every other building had been there for decades. Its owner painted the walls bright yellow and placed three small tables outside beneath a flowering tree.",
 
-        "Kathmandu is the capital city of Nepal and sits in a valley surrounded by hills. The Kathmandu Valley has a long history of art, architecture, and trade.",
+            "The first snow of winter covered the rooftops during the night. By morning, children were already running through the streets, leaving footprints across the untouched white ground.",
 
-        "Nepal is known for its diverse geography, ranging from lowland plains in the south to some of the world's highest mountains in the north.",
+            "A group of hikers reached the top of the hill just before sunset. The city below slowly began to light up, with thousands of windows glowing as the sky changed from orange to deep blue.",
 
-        "The national flag of Nepal is unusual because it is not rectangular. It consists of two joined triangular shapes containing symbols of the moon and sun.",
+            "The ocean looked peaceful from the beach, but far beyond the horizon a powerful storm was moving across the water. Dark clouds covered the sky while distant lightning briefly illuminated the clouds.",
 
-        "Nepal is the birthplace of Siddhartha Gautama, who later became known as the Buddha. Lumbini is traditionally recognized as his birthplace.",
+            "An empty suitcase was found beside an old railway platform. There was no name attached to it, but inside someone had carefully packed a blue jacket, a notebook, and a photograph of a family standing beside a small house.",
 
-        "Nepal has eight of the fourteen mountains in the world that rise above eight thousand meters in elevation.",
+            "The street musician played the same melody every evening. Nobody knew where he came from, but people often stopped for a few minutes to listen before continuing their journey.",
 
-        "The Himalayas have played an important role in Nepal's culture, tourism, geography, and economy for generations.",
+            "The little bookstore was hidden between a bakery and a hardware shop. Its shelves were crowded with old novels, travel guides, maps, and books that smelled as though they had been printed decades ago.",
 
-        "Pokhara is famous for its lakes, mountain views, and access to trekking routes in the Annapurna region.",
+            "A strange sound came from the attic just after everyone had gone to sleep. It sounded like something moving slowly across the wooden floor, followed by three quiet knocks against the wall.",
 
-        "The Annapurna region is one of Nepal's best known trekking destinations and attracts visitors from many parts of the world.",
+            "The village celebrated the beginning of spring with music, food, and colorful decorations. Families gathered in the main square while children ran between the stalls carrying paper flags.",
 
-        "Nepal is home to the one horned rhinoceros, Bengal tiger, red panda, snow leopard, and many other species.",
+            "At the edge of the desert stood a single abandoned house. Its windows were broken, its walls were covered with dust, and an old bicycle still rested against the front door.",
 
-        "The red panda is a small mammal found in the forests of the Himalayan region. Despite its name, it is not closely related to the giant panda.",
+            "The road disappeared into the clouds as the bus climbed higher into the mountains. Outside the window, waterfalls appeared between the cliffs and disappeared again behind thick mist.",
 
-        "Dashain is one of Nepal's major festivals and is celebrated by people across the country with family gatherings, blessings, food, and cultural traditions.",
+            "A curious cat discovered an open window and decided to explore the apartment next door. It walked across the kitchen, knocked over a spoon, and immediately hid beneath a chair when someone entered the room.",
 
-        "Tihar is known as the festival of lights in Nepal. Different days of the festival honor crows, dogs, cows, and other cultural traditions.",
+            "The restaurant was famous for serving only seven dishes. Every morning the chef visited the local market personally, choosing vegetables, herbs, fish, and spices before deciding what would appear on the menu that evening.",
 
-        "Nepal has many ethnic groups, languages, traditions, and cultural practices. This diversity is one of the country's most distinctive characteristics.",
+            "An astronaut looked down through the spacecraft window and saw Earth slowly turning beneath him. The blue oceans, white clouds, and enormous continents looked strangely peaceful from hundreds of kilometers above the surface.",
 
-        "The internet allows computers around the world to communicate with each other using a huge collection of connected networks.",
+            "Scientists discovered a deep cave beneath the mountain while studying underground water systems. Inside, they found unusual rock formations that had taken thousands of years to develop.",
 
-        "The first website was created by Tim Berners Lee while he was working at CERN. It helped explain the idea of the World Wide Web.",
+            "A tiny island appeared on an old map but was missing from modern navigation systems. Nobody was sure whether the island had disappeared beneath the ocean or whether the original map simply contained a mistake.",
 
-        "A computer processor performs instructions that allow software to run. Modern processors can perform billions of operations every second.",
+            "The robot stood quietly in the corner of the laboratory while engineers watched the screen. After several seconds, it suddenly raised one hand and pointed toward a locked door.",
 
-        "Artificial intelligence can analyze large amounts of information and identify patterns that may be difficult for people to notice manually.",
+            "The city looked completely different from the rooftop. Cars moved like tiny streams of light through the streets, buildings stretched toward the horizon, and distant airplanes crossed the dark sky.",
 
-        "Machine learning is a branch of artificial intelligence in which computer systems learn patterns from data rather than relying only on explicitly written rules.",
+            "A message appeared on the computer screen at exactly 2:17 in the morning. It contained only six words: I know where you are.",
 
-        "A password should be unique and difficult to guess. Using the same password across many websites can increase the damage caused by a single compromised account.",
+            "The old camera had been sitting inside a drawer for decades. When someone finally developed the film, every photograph showed the same empty street, taken from exactly the same position.",
 
-        "Two factor authentication adds another layer of protection to an account by requiring something beyond just a password.",
+            "A young scientist placed a small glass container under the microscope. What appeared on the screen looked like a simple collection of cells, but the pattern slowly began to move in an unexpected direction.",
 
-        "Cloud computing allows people and organizations to use computing resources through the internet instead of relying entirely on local hardware.",
+            "The moon was unusually bright that evening. Families sat outside their houses, travelers walked along the quiet roads, and the mountains appeared almost silver beneath the night sky.",
 
-        "The first electronic computers were enormous compared with modern computers. Advances in electronics have made computing devices dramatically smaller and more powerful.",
+            "A storm forced the airplane to change its route and land at a small airport in the middle of nowhere. The passengers expected to wait for an hour, but nobody could explain why the airport staff seemed so nervous.",
 
-        "Smartphones combine communication, computing, photography, navigation, entertainment, and many other functions in a single portable device.",
+            "The fisherman pulled his net from the water and found a bottle trapped inside it. There was a message rolled tightly within the glass, written in faded ink and dated more than fifty years earlier.",
 
-        "The World Wide Web and the internet are not exactly the same thing. The internet is the underlying network, while the web is a service that operates on it.",
+            "A narrow staircase led beneath the old theater. Nobody used it anymore, but a faint light could sometimes be seen under the door at the bottom.",
 
-        "Programming languages allow humans to give instructions to computers using structured rules and syntax.",
+            "The mountain village had no traffic lights, shopping malls, or tall buildings. Instead, it had stone paths, wooden houses, quiet streams, and a bakery that opened before sunrise every morning.",
 
-        "HTML provides the structure of a web page, CSS controls its presentation, and JavaScript can add interactive behavior.",
+            "Every Sunday, the old man sat on the same bench beside the river and fed the birds. One morning, however, he noticed a small envelope waiting beneath the bench.",
 
-        "Git allows developers to track changes in code and return to earlier versions of a project when necessary.",
+            "A colorful kite became trapped in the branches of a tall tree. Two children spent nearly an hour trying different ideas to get it down before finally discovering that a long bamboo stick was enough.",
 
-        "A database stores organized information so that applications can efficiently create, retrieve, update, and manage data.",
+            "The chef placed the final dish on the table and stepped back. It contained roasted vegetables, fresh herbs, crispy potatoes, and a bright red sauce that had taken three hours to prepare.",
 
-        "Good software is not only about making features work. It should also be understandable, maintainable, accessible, and reasonably secure.",
+            "A small wooden door stood alone in the middle of a stone wall. There was no building behind it, no path leading toward it, and no explanation for why someone had built it there.",
 
-        "Consistency is more powerful than occasional bursts of motivation. A small amount of focused work repeated every day can create meaningful progress.",
+            "The first explorers entered the abandoned station carefully. Dust covered the floor, old signs hung from the ceiling, and a broken clock had stopped at exactly eleven minutes past four.",
 
-        "Discipline means doing something because it matters, even when you do not feel particularly motivated to do it.",
+            "A warm wind moved through the trees as the hikers walked along the narrow trail. Somewhere nearby, water rushed over rocks, and the distant sound of birds echoed between the hills.",
 
-        "You do not need to become perfect before you begin. Starting with an imperfect first attempt is often better than waiting forever for the perfect moment.",
+            "The city never seemed to sleep. Even after midnight, restaurants remained open, taxis moved through the streets, and small shops continued serving customers beneath bright signs.",
 
-        "Progress can be difficult to notice when you look at only one day. Compare your current skills with where you were several months ago.",
+            "A mysterious package appeared on the doorstep every Friday. Nobody in the neighborhood knew who delivered it, and each package contained something completely different: a key, a photograph, a coin, a letter, and once, a tiny compass.",
 
-        "A difficult task becomes easier when it is divided into smaller steps. Focus on completing the next useful step instead of worrying about the entire journey.",
+            "The village clock had stopped working years ago, yet everyone still looked at it whenever they wanted to know the time. Somehow, the broken clock had become part of the identity of the village.",
 
-        "Failure can provide useful information when you take time to understand what went wrong and adjust your approach.",
+            "The old bridge crossed a river surrounded by enormous trees. During the day it was used by farmers and travelers, but at night the entire area became silent except for the sound of water below.",
 
-        "Building a skill requires repetition. The goal is not to avoid mistakes completely, but to learn from them and gradually make fewer mistakes.",
+            "A group of friends decided to spend the weekend in a cabin beside the lake. They brought food, sleeping bags, a guitar, and enough firewood to stay warm through the cold mountain night.",
 
-        "Your attention is limited, so protecting your focus is important. Turning off unnecessary notifications can make concentrated work easier.",
+            "The bakery owner knew most of his customers by name. Every morning he prepared the same familiar selection of bread, but occasionally he experimented with unusual combinations of fruit, chocolate, herbs, and spices.",
 
-        "Motivation can help you begin a task, but habits and systems can help you continue when motivation disappears.",
+            "A sudden flash appeared beyond the mountains. It was too bright to be lightning and too slow to be an airplane. For several minutes, everyone in the village stood outside watching the strange light move across the sky.",
 
-        "A strong routine does not have to be complicated. A simple schedule that you can actually follow is often more useful than an ambitious plan that you abandon.",
+            "The abandoned cinema still had hundreds of seats inside. The screen was covered with dust, the curtains were faded, and an old poster near the entrance advertised a movie that had premiered more than thirty years ago.",
 
-        "Reading, practicing, building projects, and asking questions are all practical ways to develop knowledge and improve your skills.",
+            "The traveler reached the top of the mountain just before sunrise. As the first light appeared, the clouds below began to glow, creating the strange impression that the entire valley was floating above the sky.",
 
-        "The fastest way to learn is not always to consume more information. Applying what you already know can reveal what you still need to understand.",
+            "A small radio in the corner suddenly turned itself on. Static filled the room, followed by a quiet voice reading numbers slowly one after another. Nobody recognized the voice.",
 
-        "Patience does not mean doing nothing. It means continuing to work while accepting that meaningful results often take time.",
+            "The farmer discovered an unusual pattern in the field after a storm. Hundreds of plants had been bent in exactly the same direction, forming a shape that could only be seen from above.",
 
-        "Cristiano Ronaldo is one of the most recognizable football players of his generation. He has played for several major European clubs and Portugal.",
+            "The rain continued throughout the afternoon, so the family decided to stay inside. They cooked dinner together, played cards at the kitchen table, and listened to the sound of water hitting the windows.",
 
-        "Lionel Messi is an Argentine footballer who spent much of his club career at Barcelona before later playing for Paris Saint Germain and Inter Miami.",
+            "A photographer traveled to a remote village hoping to capture the perfect sunrise. Instead, he discovered a small festival taking place in the main square and spent the morning photographing musicians, dancers, food stalls, and laughing children.",
 
-        "Michael Jordan became one of the most famous basketball players in history. He won six NBA championships with the Chicago Bulls.",
+            "The ancient library contained thousands of books, but one shelf was completely empty. According to the librarian, nobody had ever been allowed to place a book there.",
 
-        "Serena Williams became one of the most successful tennis players of her era, winning numerous Grand Slam singles titles during her career.",
+            "A boat appeared on the horizon just before sunset. It moved slowly toward the harbor, but there was something unusual about it: every window was dark, and nobody could be seen on the deck.",
 
-        "Usain Bolt is a Jamaican sprinter known for his extraordinary performances in the 100 meter and 200 meter events at the Olympic Games.",
+            "The desert seemed endless beneath the afternoon sun. Sand stretched in every direction, interrupted only by a few rocks and a distant line of mountains that looked almost unreal through the heat.",
 
-        "Marie Curie was a pioneering scientist whose research into radioactivity earned her Nobel Prizes in both Physics and Chemistry.",
+            "A small red umbrella was left beside the train station every rainy morning. Nobody knew who owned it, but anyone who needed it was welcome to take it.",
 
-        "Albert Einstein developed the theory of relativity and made major contributions to modern physics. His name became closely associated with scientific genius.",
+            "The mountain guide stopped suddenly and pointed toward the snow. A series of fresh footprints crossed the trail and disappeared behind a large rock. They did not belong to any of the hikers.",
 
-        "Leonardo da Vinci was an Italian artist, engineer, inventor, and thinker. His interests extended across art, science, anatomy, and engineering.",
+            "The first cup of coffee tasted unusually good that morning. Outside, the city was still quiet, the windows were covered with tiny drops of rain, and soft music played from the kitchen.",
 
-        "Steve Jobs co founded Apple and became one of the most influential figures in the development and popularization of consumer technology.",
+            "An old photograph showed a street that looked familiar, but nobody could identify the exact location. Years later, someone recognized the building in the background and discovered that the entire neighborhood had been demolished long ago.",
 
-        "Bill Gates co founded Microsoft and became one of the best known figures in the personal computer software industry.",
+            "The small boat moved gently across the river while the sun disappeared behind the hills. Birds flew between the trees, fishermen prepared their nets, and smoke rose slowly from houses along the shore.",
 
-        "Elon Musk has been involved in several technology companies, including Tesla and SpaceX, and has become a prominent figure in the technology industry.",
+            "A traveler entered a restaurant without knowing that it was famous. The menu was handwritten, the tables were simple, and the owner recommended a dish that turned out to be the best meal of the entire trip.",
 
-        "A good typing session is not a race against someone else. It is an opportunity to improve your own accuracy, rhythm, and consistency.",
+            "The museum guard noticed that one painting looked slightly different every morning. At first he thought the changing light was responsible, but eventually he began writing down everything he saw.",
 
-        "Typing faster is useful, but typing accurately is equally important. Speed without accuracy can create more work because mistakes need to be corrected.",
+            "A group of students built a small weather station on the roof of their school. They measured temperature, wind speed, rainfall, and air pressure, then compared their results every afternoon.",
 
-        "Your keyboard is a tool, and like any tool, it becomes more effective when you learn how to use it properly.",
+            "The village festival continued until late at night. Strings of lights crossed the streets, musicians played near the square, and the smell of grilled food followed people wherever they walked.",
 
-        "Looking at every key while typing can slow you down. Touch typing aims to help you type without constantly searching for individual keys.",
+            "A package containing an old watch arrived at the apartment with no explanation. The watch did not work, but when the owner opened the back, he found a tiny piece of paper hidden inside.",
 
-        "The home row provides an important reference point for touch typing. Keeping your fingers positioned correctly can make movement more predictable.",
+            "The forest looked ordinary during the day, but after sunset it became completely different. Strange sounds came from the trees, insects filled the air with quiet noises, and the path seemed much narrower than before.",
 
-        "A comfortable typing posture can reduce unnecessary strain during long sessions. Keep your shoulders relaxed and avoid pressing the keys harder than necessary.",
+            "The ocean is home to creatures that seem almost impossible to imagine. Some live near the surface beneath sunlight, while others survive thousands of meters below where pressure is enormous and almost no light exists.",
 
-        "When practicing typing, accuracy should usually come before maximum speed. A steady rhythm can gradually lead to faster performance.",
+            "A volcano can remain quiet for decades before becoming active again. Scientists carefully monitor changes in temperature, gases, earthquakes, and ground movement to understand what may be happening beneath the surface.",
 
-        "Short practice sessions can be easier to maintain than long sessions. Regular practice is often more useful than practicing only once in a while.",
+            "The northern lights appear when charged particles from the Sun interact with gases in Earth's atmosphere. The result can be a spectacular display of green, purple, pink, and red light across the night sky.",
 
-        "Every character you type is an opportunity to improve your rhythm. Try to remain relaxed instead of rushing whenever the timer starts.",
+            "Deep beneath the ocean, strange ecosystems exist around hydrothermal vents. These environments receive little or no sunlight, yet they support communities of organisms adapted to extreme temperatures and unusual chemical conditions.",
 
-        "A typing test measures performance at a particular moment. Your score can change depending on the passage, concentration, fatigue, and familiarity with the words.",
+            "The first photographs of Earth from space changed the way many people imagined the planet. From above, national borders disappear, and the atmosphere appears as a thin layer surrounding the entire world.",
 
-        "Curiosity is one of the most useful qualities for learning. Asking why something works can lead to deeper understanding than simply memorizing an answer.",
+            "A giant telescope on a remote mountain spends each night collecting tiny amounts of light from distant objects. Some of the stars it observes are so far away that their light began traveling toward Earth before humans existed.",
 
-        "The moon does not produce its own visible light. What we see from Earth is sunlight reflected from its surface.",
+            "The human body is capable of remarkable adaptation. Muscles become stronger with regular use, the brain can form new connections, and the senses constantly adjust to changes in the surrounding environment.",
 
-        "Honeybees communicate information about food sources through movements often called the waggle dance.",
+            "A single tree can provide shelter for insects, birds, mammals, fungi, and countless microscopic organisms. Forests are not simply collections of trees; they are complex communities connected in many different ways.",
 
-        "Bananas are berries according to botanical definitions, while strawberries are considered aggregate fruits rather than true botanical berries.",
+            "The world beneath the surface of a forest can be just as active as the world above it. Roots, fungi, insects, worms, and microorganisms interact constantly in the soil, breaking down material and returning nutrients to the ecosystem.",
 
-        "A day on Venus is longer than its year. Venus rotates very slowly compared with the time it takes to orbit the Sun.",
+            "Some animals travel enormous distances during migration. Birds may cross oceans, whales can travel between feeding and breeding grounds, and certain insects complete journeys that seem impossible for creatures so small.",
 
-        "Lightning can heat the surrounding air to temperatures much hotter than the surface of the Sun for a very brief moment.",
+            "The Sahara is one of the largest hot deserts on Earth, but it is not completely empty. Plants, insects, reptiles, birds, and mammals have developed remarkable ways to survive extreme heat and limited water.",
 
-        "Sharks are older than trees in evolutionary history. Shark ancestors existed hundreds of millions of years ago.",
+            "Mountains can create their own weather. Air rises along steep slopes, temperatures change with altitude, and clouds can form quickly around high peaks, sometimes producing snow even when the valleys below are warm.",
 
-        "Some bamboo species can grow remarkably quickly under suitable conditions, making bamboo one of the fastest growing plants in the world.",
+            "The night sky contains more stars than most people can see from a city. Artificial light makes many of them invisible, which is why remote areas with dark skies are popular places for astronomy and stargazing.",
 
-        "Water can exist naturally as a solid, liquid, or gas. Temperature and pressure determine which state is stable under particular conditions.",
+            "A coral reef may look like a collection of colorful rocks, but it is actually a living ecosystem built by tiny organisms. Thousands of species can depend on reefs for food, shelter, and protection.",
 
-        "The human brain contains billions of neurons that communicate with each other through electrical and chemical signals.",
+            "Some caves contain underground rivers, enormous chambers, and crystals that have formed over thousands of years. Exploring them can be difficult because darkness, water, narrow passages, and unstable rocks create constant challenges.",
 
-        "Sleep is important for the body and brain. Getting enough quality sleep can support memory, attention, learning, and overall well being.",
+            "The Amazon rainforest receives enormous amounts of rainfall each year. Its rivers, forests, wetlands, and countless species form one of the most complex ecosystems on the planet.",
 
-        "The best projects are not always the biggest projects. A small project that teaches you something and actually gets finished can be extremely valuable.",
+            "A single drop of seawater contains thousands of microscopic organisms. Although they are invisible to the naked eye, these tiny forms of life play an important role in marine ecosystems and the global carbon cycle.",
 
-        "When learning to code, encountering errors is normal. Reading the error message carefully is often the first step toward finding the problem.",
+            "The Himalayas are still changing. Massive geological forces continue to push the mountains upward while wind, rain, snow, ice, and rivers slowly wear the rock away.",
 
-        "A website can look simple on the surface while requiring many different technologies underneath. Design, structure, logic, data, and hosting all play different roles.",
+            "Pokhara looks especially beautiful in the early morning when the mountains are reflected in the calm surface of the lake. As the day becomes warmer, clouds often gather around the surrounding hills.",
 
-        "Good design is not only about making something look attractive. It is also about helping people understand what they can do and making actions feel natural.",
+            "Kathmandu becomes especially lively during festival seasons. Streets fill with decorations, families visit temples and relatives, markets become crowded, and the smell of traditional food travels through the neighborhoods.",
 
-        "The most useful feature is not always the most complicated one. Simple features that solve real problems can create a better experience for users.",
+            "A quiet trail through the hills can reveal something new around every corner. One moment you may see a waterfall between the trees, and the next you may find a small village surrounded by fields.",
 
-        "When building a new product, testing assumptions early can save time. It is usually better to discover a weak idea quickly than spend months building it.",
+            "The streets of an old city often reveal its history without requiring a museum. Buildings, temples, courtyards, markets, stone paths, and faded signs can tell stories about the people who lived there generations ago.",
 
-        "Every experienced developer was once a beginner who did not understand many of the things they know today.",
+            "A warm bowl of momo can make a cold evening feel much better. Steam rises from the plate while the spicy sauce sits nearby, waiting for someone brave enough to add a little extra.",
 
-        "You do not need to understand an entire programming language before building something useful. Learning one concept at a time can be enough to start.",
+            "The smell of freshly prepared sel roti filled the kitchen while everyone waited for the first batch to finish cooking. Outside, neighbors were already preparing decorations for the festival.",
 
-        "Keep building, keep testing, and keep asking questions. Skills grow through practice, and every completed project becomes part of your experience.",
+            "A road trip through Nepal can take you through several completely different landscapes in a single day. The journey may begin among busy streets and end beside quiet rivers, forests, or snow covered mountains.",
 
-        "The goal of practice is not to prove that you are already good. The goal is to become slightly better than you were before.",
+            "The monsoon changes the appearance of the hills almost overnight. Green vegetation covers the slopes, waterfalls become more powerful, and small streams appear beside roads that were dry only a few weeks earlier.",
 
-        "Consistency may feel boring, but boring repetition is often what turns a difficult skill into an automatic one.",
+            "At a busy market, every sound seems to compete for attention. Sellers call out to customers, motorcycles pass through narrow gaps, metal shutters move up and down, and conversations continue from every direction.",
 
-        "When progress feels slow, remember that improvement is not always visible immediately. Skills can develop quietly before the results become obvious.",
+            "A traveler sitting beside a mountain road may notice how quickly the weather changes. Bright sunshine can disappear behind clouds within minutes, followed by cold wind and a sudden burst of rain.",
 
-        "Focus on the process you can control. You cannot control every result, but you can control how carefully you practice and how often you return.",
+            "The best part of a long journey is sometimes an unexpected stop. A small roadside restaurant, an unfamiliar trail, or a quiet viewpoint can become the place you remember long after the trip is over.",
 
-        "A calm mind and steady rhythm can make typing more enjoyable. Take a breath, start typing, and let your fingers find their rhythm."
-    ];
+            "A mysterious island, an abandoned house, a forgotten letter, and a locked door may seem unrelated at first. But sometimes a good story begins when someone becomes curious enough to ask a simple question.",
+
+            "The detective looked at the three objects on the table: a broken watch, a muddy key, and a photograph with one corner missing. None of them seemed important by itself, but together they told a very different story.",
+
+            "The door opened slowly as the wind pushed against it. Inside was a narrow hallway covered with old photographs, each showing the same house at a different point in history.",
+
+            "At exactly midnight, every clock in the town stopped for three seconds. Nobody noticed immediately, but the next morning people began sharing the same strange story about what they had seen during those three seconds.",
+
+            "The traveler followed the handwritten instructions until the road became little more than a dirt path. At the end stood a wooden cabin surrounded by pine trees, with smoke rising quietly from the chimney.",
+
+            "A young engineer found an unusual signal while testing a new radio receiver. It appeared for only a few seconds each night, always at the same time, and always from the same direction.",
+
+            "The rain had washed away the dust from the old sign, revealing a name that nobody in the village recognized. Curious about its history, a group of friends decided to follow the road indicated by the faded arrow.",
+
+            "The final train of the evening was almost empty. A woman sat near the window reading a book, an old man slept across two seats, and a mysterious suitcase remained unattended near the door.",
+
+            "The sun disappeared behind the mountains as the hikers hurried toward the campsite. They could already see the warm glow of a small fire between the trees, which was a welcome sight after several hours on the trail."
+
+        ];
 
     let passage = "";
     let typedText = "";
@@ -735,32 +760,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.key === "Backspace") {
 
             event.preventDefault();
-
-            if (typedText.length > 0) {
-
-                    const lastIndex =
-                        typedText.length - 1;
-
-                    /* Check if the character being removed was correct */
-
-                    if (typedText[lastIndex] === passage[lastIndex]) {
-                        totalCorrectCharacters--;
-                    }
-
-                    totalTypedCharacters--;
-
-                    typedText =
-                        typedText.slice(0, -1);
-
-                }
-
-            renderPassage();
-
-            updateAccuracy();
-
-            updateCharacterStats();
-
-            updateWPM();
 
             return;
         }

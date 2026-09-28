@@ -23,6 +23,155 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================================
 
     const wordBank = [
+
+        // ========================================
+        // VERY EASY
+        // ========================================
+
+        "a",
+        "an",
+        "as",
+        "at",
+        "be",
+        "by",
+        "do",
+        "go",
+        "he",
+        "if",
+        "in",
+        "is",
+        "it",
+        "me",
+        "my",
+        "no",
+        "of",
+        "on",
+        "or",
+        "so",
+        "to",
+        "up",
+        "us",
+        "we",
+
+        "and",
+        "are",
+        "can",
+        "for",
+        "get",
+        "has",
+        "have",
+        "her",
+        "his",
+        "how",
+        "not",
+        "now",
+        "one",
+        "our",
+        "out",
+        "see",
+        "the",
+        "this",
+        "was",
+        "what",
+        "when",
+        "who",
+        "will",
+        "with",
+        "you",
+
+        // ========================================
+        // EASY
+        // ========================================
+
+        "able",
+        "back",
+        "best",
+        "book",
+        "call",
+        "case",
+        "city",
+        "come",
+        "data",
+        "days",
+        "done",
+        "down",
+        "each",
+        "even",
+        "fact",
+        "feel",
+        "find",
+        "first",
+        "food",
+        "from",
+        "give",
+        "good",
+        "help",
+        "home",
+        "idea",
+        "into",
+        "keep",
+        "kind",
+        "know",
+        "last",
+        "left",
+        "life",
+        "like",
+        "line",
+        "list",
+        "long",
+        "look",
+        "made",
+        "make",
+        "many",
+        "more",
+        "most",
+        "much",
+        "name",
+        "need",
+        "next",
+        "only",
+        "open",
+        "part",
+        "place",
+        "plan",
+        "play",
+        "point",
+        "read",
+        "real",
+        "right",
+        "same",
+        "show",
+        "side",
+        "small",
+        "some",
+        "start",
+        "take",
+        "talk",
+        "team",
+        "tell",
+        "than",
+        "that",
+        "them",
+        "then",
+        "they",
+        "thing",
+        "think",
+        "time",
+        "today",
+        "turn",
+        "used",
+        "very",
+        "want",
+        "ways",
+        "week",
+        "well",
+        "work",
+        "year",
+
+        // ========================================
+        // MEDIUM
+        // ========================================
+
         "ability",
         "accept",
         "account",
@@ -36,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "answer",
         "appear",
         "approach",
-        "area",
         "around",
         "arrive",
         "article",
@@ -89,8 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "order",
         "other",
         "people",
-        "place",
-        "point",
         "possible",
         "practice",
         "present",
@@ -103,28 +249,123 @@ document.addEventListener("DOMContentLoaded", () => {
         "question",
         "reason",
         "result",
-        "right",
         "service",
         "simple",
-        "small",
         "something",
-        "start",
         "state",
         "still",
         "strong",
         "system",
-        "team",
-        "thing",
-        "think",
-        "today",
         "together",
         "understand",
         "value",
         "website",
-        "work",
         "world",
         "write",
-        "year"
+
+        // ========================================
+        // HARD
+        // ========================================
+
+        "accurate",
+        "analysis",
+        "application",
+        "appropriate",
+        "available",
+        "challenge",
+        "communication",
+        "community",
+        "comparison",
+        "computer",
+        "consider",
+        "continue",
+        "customer",
+        "decision",
+        "development",
+        "different",
+        "direction",
+        "environment",
+        "especially",
+        "essential",
+        "experience",
+        "familiar",
+        "following",
+        "frequently",
+        "generation",
+        "government",
+        "immediately",
+        "individual",
+        "industry",
+        "language",
+        "management",
+        "necessary",
+        "organization",
+        "performance",
+        "personal",
+        "platform",
+        "potential",
+        "professional",
+        "recommend",
+        "relationship",
+        "research",
+        "responsibility",
+        "security",
+        "significant",
+        "similar",
+        "specific",
+        "structure",
+        "technology",
+        "therefore",
+        "through",
+        "throughout",
+        "understanding",
+        "usually",
+
+        // ========================================
+        // TYPING-CHALLENGING
+        // ========================================
+
+        "awkward",
+        "beautiful",
+        "beginning",
+        "business",
+        "character",
+        "comfortable",
+        "consequence",
+        "consistently",
+        "coordinate",
+        "description",
+        "difficulty",
+        "efficient",
+        "equipment",
+        "excellent",
+        "exercise",
+        "government",
+        "knowledge",
+        "maintenance",
+        "necessary",
+        "occasionally",
+        "particularly",
+        "privilege",
+        "probably",
+        "process",
+        "pronunciation",
+        "psychology",
+        "questionnaire",
+        "recognize",
+        "recommendation",
+        "requirement",
+        "schedule",
+        "strength",
+        "successful",
+        "technique",
+        "temporary",
+        "throughout",
+        "trouble",
+        "variety",
+        "whether",
+        "written"
+
     ];
 
 
@@ -132,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Practice Settings
     // ================================
 
-    const WORDS_PER_SET = 14;
+    const WORDS_PER_SET = 24;
 
 
     // ================================
@@ -225,29 +466,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
         typingText.innerHTML = "";
 
-        [...targetText].forEach((character, index) => {
+        let characterIndex = 0;
 
-            const characterElement =
+        wordSet.forEach((word, wordIndex) => {
+
+            // Create an unbreakable container for the whole word
+            const wordElement =
                 document.createElement("span");
 
-            /*
-             * Use a non-breaking space visually so the
-             * browser keeps the space character visible.
-             *
-             * The actual character being checked remains
-             * a normal " " in targetText.
-             */
-            characterElement.textContent =
-                character === " "
-                    ? "\u00A0"
-                    : character;
+            wordElement.className =
+                "inline-block whitespace-nowrap";
 
-            characterElement.dataset.charIndex = index;
+            // Create individual character spans
+            [...word].forEach((character) => {
 
-            characterElement.className =
-                "text-keygati-dark/35 transition-colors duration-75";
+                const characterElement =
+                    document.createElement("span");
 
-            typingText.appendChild(characterElement);
+                characterElement.textContent =
+                    character;
+
+                characterElement.dataset.charIndex =
+                    characterIndex;
+
+                characterElement.className =
+                    "text-keygati-dark/35 transition-colors duration-75";
+
+                wordElement.appendChild(characterElement);
+
+                characterIndex++;
+            });
+
+            typingText.appendChild(wordElement);
+
+            // Add a real space between words
+            if (wordIndex < wordSet.length - 1) {
+
+                const spaceElement =
+                    document.createElement("span");
+
+                spaceElement.textContent = "\u00A0";
+
+                spaceElement.dataset.charIndex =
+                    characterIndex;
+
+                spaceElement.className =
+                    "text-keygati-dark/35";
+
+                typingText.appendChild(spaceElement);
+
+                characterIndex++;
+            }
         });
 
         updateCharacterDisplay();
@@ -265,6 +534,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const targetText =
             getTargetText();
+
+
+        // Remove any existing cursor
+        const existingCursor =
+            typingText.querySelector(".typing-cursor");
+
+        if (existingCursor) {
+            existingCursor.remove();
+        }
+
 
         characters.forEach((characterElement, index) => {
 
@@ -300,6 +579,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 "text-keygati-dark/35"
             );
         });
+
+
+        // Add cursor below the current character
+        const currentCharacter =
+            typingText.querySelector(
+                `[data-char-index="${typedText.length}"]`
+            );
+
+        if (currentCharacter) {
+
+            const cursor =
+                document.createElement("span");
+
+            cursor.className =
+                "typing-cursor";
+
+            currentCharacter.parentNode.insertBefore(
+                cursor,
+                currentCharacter
+            );
+
+        } else {
+
+            // Cursor at the very end of the text
+            const cursor =
+                document.createElement("span");
+
+            cursor.className =
+                "typing-cursor";
+
+            typingText.appendChild(cursor);
+        }
     }
 
 
@@ -356,25 +667,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const wpm =
             calculateWPM();
 
-        const errors =
-            totalTypedCharacters -
-            totalCorrectCharacters;
+        const accuracy =
+        calculateAccuracy();
 
-        /*
-         * Score formula:
-         *
-         * Correct Characters × 10
-         * + WPM × 5
-         * − Errors × 5
-         */
-
-        return Math.max(
-            0,
-            Math.round(
-                (totalCorrectCharacters * 10) +
-                (wpm * 5) -
-                (errors * 5)
-            )
+        return Math.round(
+            ((wpm / 150) * 1000) +
+            ((accuracy / 100) * 500)
         );
     }
 
@@ -526,7 +824,8 @@ document.addEventListener("DOMContentLoaded", () => {
             event.key === "ArrowUp" ||
             event.key === "ArrowDown" ||
             event.key === "ArrowLeft" ||
-            event.key === "ArrowRight"
+            event.key === "ArrowRight" ||
+            event.key === "Backspace"
         ) {
             return;
         }

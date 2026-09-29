@@ -115,12 +115,20 @@ body::before {
 LANDING PAGE
 ========================================================= */
 
+.landing-page,
+.legal-page {
+    background: #A8DADC;
+    color: #264653;
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+}
+
 .landing-page {
-background: #A8DADC;
-color: #264653;
-font-family: "Inter", sans-serif;
-min-height: 100vh;
-overflow: hidden;
+    overflow: hidden;
+}
+
+.legal-page {
+    overflow-y: auto;
 }
 
 /* ---------------------------------------------------------
@@ -686,4 +694,393 @@ Responsive
     text-align: left;
 }
 
+}
+
+/* ---------------------------------------------------------
+   Legal Pages
+   --------------------------------------------------------- */
+
+.legal-main {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 120px 0 60px;
+}
+
+.legal-card {
+    background: rgba(241, 250, 238, 0.72);
+
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 24px;
+
+    padding: 48px;
+
+    box-shadow:
+        0 12px 30px rgba(38, 70, 83, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.legal-header {
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+
+    border-bottom: 1px solid rgba(38, 70, 83, 0.10);
+}
+
+.legal-label {
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    color: #2A9D8F;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.legal-header h1 {
+    margin: 0;
+
+    color: #264653;
+
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.legal-updated {
+    margin: 14px 0 0;
+
+    color: rgba(38, 70, 83, 0.55);
+
+    font-size: 13px;
+}
+
+.legal-section {
+    margin-bottom: 32px;
+}
+
+.legal-section:last-child {
+    margin-bottom: 0;
+}
+
+.legal-section h2 {
+    margin: 0 0 10px;
+
+    color: #264653;
+
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.legal-section p {
+    margin: 0 0 12px;
+
+    color: rgba(38, 70, 83, 0.72);
+
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.legal-section p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-section a {
+    color: #2A9D8F;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.legal-section a:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------
+   Legal Pages — Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+    .legal-main {
+        width: min(100% - 24px, 900px);
+        padding: 100px 0 40px;
+    }
+
+    .legal-card {
+        padding: 28px 22px;
+        border-radius: 20px;
+    }
+
+    .legal-section h2 {
+        font-size: 18px;
+    }
+
+    .legal-section p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+}
+
+.legal-page {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.landing-info-nav a:hover,
+.landing-info-nav a.active {
+    background: rgba(42, 157, 143, 0.12);
+    color: #2A9D8F;
+}
+
+/* ========================================
+   HELP & GUIDES
+======================================== */
+
+.help-section {
+    margin-bottom: 48px;
+}
+
+.help-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.help-section-header {
+    margin-bottom: 20px;
+}
+
+.help-section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+
+    color: #2A9D8F;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.help-section-header h2 {
+    margin: 0;
+
+    color: #264653;
+
+    font-size: 24px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+
+/* Guide cards */
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.help-card {
+    min-height: 210px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 24px;
+
+    background: rgba(241, 250, 238, 0.55);
+
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 20px rgba(38, 70, 83, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.help-card:hover {
+    transform: translateY(-3px);
+
+    background: rgba(241, 250, 238, 0.72);
+
+    box-shadow:
+        0 12px 26px rgba(38, 70, 83, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+
+/* Card label */
+
+.help-card-label {
+    display: inline-block;
+    margin-bottom: 10px;
+
+    color: #2A9D8F;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+
+/* Card heading */
+
+.help-card h3 {
+    margin: 0 0 10px;
+
+    color: #264653;
+
+    font-size: 19px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+
+/* Card description */
+
+.help-card p {
+    margin: 0;
+
+    color: rgba(38, 70, 83, 0.68);
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* Card link */
+
+.help-card-link {
+    display: inline-block;
+    margin-top: 20px;
+
+    color: #2A9D8F;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* Back link */
+
+.help-back {
+    margin-top: 40px;
+    padding-top: 28px;
+
+    border-top: 1px solid rgba(38, 70, 83, 0.10);
+}
+
+.help-back a {
+    color: #2A9D8F;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.help-back a:hover {
+    text-decoration: underline;
+}
+
+
+/* Responsive */
+
+@media (max-width: 700px) {
+
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .help-section {
+        margin-bottom: 40px;
+    }
+
+    .help-section-header h2 {
+        font-size: 21px;
+    }
+
+    .help-card {
+        min-height: 190px;
+        padding: 22px;
+    }
+
+}
+
+.help-formula {
+    margin: 16px 0;
+    padding: 14px 18px;
+
+    background: rgba(42, 157, 143, 0.08);
+
+    border: 1px solid rgba(42, 157, 143, 0.16);
+    border-radius: 12px;
+
+    color: #264653;
+
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+/* ========================================
+   HELP & GUIDES BUTTON
+======================================== */
+
+.help-guides-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 28px;
+    padding: 9px 16px;
+
+    background: rgba(241, 250, 238, 0.38);
+
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 999px;
+
+    color: #264653;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 4px 12px rgba(38, 70, 83, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.help-guides-button:hover {
+    background: rgba(42, 157, 143, 0.12);
+
+    color: #2A9D8F;
+
+    transform: translateY(-1px);
 }

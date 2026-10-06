@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressValue = document.getElementById("progress-value");
 
     const restartButton = document.getElementById("restart-button");
+    const typingInput = document.getElementById("typing-input");
 
 
     // ================================
@@ -441,6 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         typedText = "";
 
+        typingInput.value = "";
+
         totalTypedCharacters = 0;
         totalCorrectCharacters = 0;
 
@@ -800,55 +803,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ================================
-    // Keyboard Input
+       // ================================
+    // Mobile + Keyboard Input
     // ================================
 
-    document.addEventListener("keydown", (event) => {
+    function focusTypingInput() {
 
-        // Prevent buttons from capturing typing input
-        if (document.activeElement instanceof HTMLButtonElement) {
+        if (!practiceFinished) {
+            typingInput.focus();
+        }
+
+    }
+
+
+    typingInput.addEventListener("input", () => {
+
+        if (practiceFinished) {
+
+            typingInput.value =
+                typedText;
+
             return;
         }
 
 
-        // Ignore modifier and navigation keys
-        if (
-            event.key === "Shift" ||
-            event.key === "Control" ||
-            event.key === "Alt" ||
-            event.key === "Meta" ||
-            event.key === "Tab" ||
-            event.key === "Escape" ||
-            event.key === "Enter" ||
-            event.key === "ArrowUp" ||
-            event.key === "ArrowDown" ||
-            event.key === "ArrowLeft" ||
-            event.key === "ArrowRight" ||
-            event.key === "Backspace"
-        ) {
-            return;
-        }
+        const newValue =
+            typingInput.value;
 
 
         // ================================
-        // Backspace
+        // Backspace / Deletion
         // ================================
 
-        if (event.key === "Backspace") {
-
-            event.preventDefault();
-
+        if (newValue.length < typedText.length) {
 
             if (typedText.length === 0) {
+
+                typingInput.value = "";
+
                 return;
             }
 
 
-            /*
-             * Remember the character being removed
-             * BEFORE changing typedText.
-             */
             const removedIndex =
                 typedText.length - 1;
 
@@ -869,8 +865,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             if (removedCharacter === expectedCharacter) {
+
                 totalCorrectCharacters--;
+
             }
+
+
+            typingInput.value =
+                typedText;
 
 
             updateCharacterDisplay();
@@ -882,92 +884,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         // ================================
-        // Printable Characters
+        // New Characters
         // ================================
 
-        /*
-         * Space has event.key === " "
-         * and event.key.length === 1.
-         *
-         * Therefore spaces are intentionally accepted.
-         */
-        if (event.key.length !== 1) {
+        const newCharacters =
+            newValue.slice(typedText.length);
+
+
+        if (newCharacters.length === 0) {
             return;
         }
 
-
-        event.preventDefault();
-
-
-        // ================================
-        // Target Text
-        // ================================
 
         const targetText =
             getTargetText();
 
 
-        // Do not type beyond the set
-        if (typedText.length >= targetText.length) {
-            return;
+        for (const character of newCharacters) {
+
+            if (typedText.length >= targetText.length) {
+                break;
+            }
+
+
+            // ================================
+            // Start Timer
+            // ================================
+
+            if (!practiceStarted) {
+
+                practiceStarted = true;
+
+                startTime = Date.now();
+
+            }
+
+
+            // ================================
+            // Check Character
+            // ================================
+
+            const currentIndex =
+                typedText.length;
+
+            const expectedCharacter =
+                targetText[currentIndex];
+
+
+            typedText += character;
+
+            totalTypedCharacters++;
+
+
+            if (character === expectedCharacter) {
+
+                totalCorrectCharacters++;
+
+            }
+
+
+            // ================================
+            // Update UI
+            // ================================
+
+            updateCharacterDisplay();
+
+            updateStats();
+
+            updateProgress();
+
+            checkSetCompletion();
+
         }
-
-
-        // ================================
-        // Start Timer
-        // ================================
-
-        if (!practiceStarted) {
-
-            practiceStarted = true;
-
-            startTime = Date.now();
-        }
-
-
-        // ================================
-        // Check Character
-        // ================================
-
-        const currentIndex =
-            typedText.length;
-
-        const expectedCharacter =
-            targetText[currentIndex];
 
 
         /*
-         * event.key can be:
-         *
-         * "a"
-         * "b"
-         * " "
-         *
-         * So spaces are handled exactly like
-         * every other character.
+         * Keep the hidden textarea
+         * synchronized with typedText.
          */
-        typedText += event.key;
+        typingInput.value =
+            typedText;
 
-        totalTypedCharacters++;
+    });
 
 
-        if (event.key === expectedCharacter) {
-            totalCorrectCharacters++;
+    // ================================
+    // Focus Typing Input
+    // ================================
+
+    document.addEventListener("click", (event) => {
+
+        if (event.target.closest("button")) {
+            return;
         }
 
+        focusTypingInput();
 
-        // ================================
-        // Update UI
-        // ================================
-
-        updateCharacterDisplay();
-
-        updateStats();
-
-        updateProgress();
-
-        checkSetCompletion();
     });
+
+
+    /*
+     * Initial focus.
+     */
+    focusTypingInput();
 
 
     // ================================

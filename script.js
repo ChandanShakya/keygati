@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const restartButton = document.getElementById("restart-button");
         const charStatsValue = document.getElementById("char-stats-value");
 
+        const typingInput = document.getElementById("typing-input");
+
         const duration15Button = document.getElementById("duration-15");
         const duration30Button = document.getElementById("duration-30");
         const duration60Button = document.getElementById("duration-60");
@@ -303,6 +305,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         typedText = "";
 
+        typingInput.value = "";
+
         totalTypedCharacters = 0;
         totalCorrectCharacters = 0;
 
@@ -356,6 +360,8 @@ document.addEventListener("DOMContentLoaded", function () {
         timeLeft = testDuration;
 
         typedText = "";
+
+        typingInput.value = "";
 
         totalTypedCharacters = 0;
         totalCorrectCharacters = 0;
@@ -739,118 +745,154 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* ================================
-       KEYBOARD INPUT
-    ================================ */
+TEXT INPUT
+================================ */
 
-    document.addEventListener("keydown", function (event) {
+/*
+ * Keep the typing input focused so
+ * mobile keyboards can appear.
+ */
+function focusTypingInput() {
 
-        if (document.activeElement instanceof HTMLButtonElement) {
-            return;
+    if (!testFinished) {
+        typingInput.focus();
+    }
+
+}
+
+
+/*
+ * Handle text input from:
+ * - physical keyboards
+ * - mobile keyboards
+ */
+typingInput.addEventListener("input", function () {
+
+    if (testFinished) {
+        return;
+    }
+
+    const newValue = typingInput.value;
+
+    /*
+     * Time Mode does not allow
+     * deleting typed characters.
+     */
+    if (newValue.length < typedText.length) {
+
+        typingInput.value = typedText;
+
+        return;
+    }
+
+    /*
+     * Get newly typed characters.
+     */
+    const newCharacters =
+        newValue.slice(typedText.length);
+
+    if (newCharacters.length === 0) {
+        return;
+    }
+
+    /*
+     * Process every newly typed character.
+     */
+    for (const character of newCharacters) {
+
+        if (character.length !== 1) {
+            continue;
         }
-        
-        if (testFinished) {
-            return;
+
+        typedText += character;
+
+        totalTypedCharacters++;
+
+        /*
+         * Check whether the character
+         * matches the passage.
+         */
+        const currentIndex =
+            typedText.length - 1;
+
+        if (character === passage[currentIndex]) {
+
+            totalCorrectCharacters++;
+
         }
 
-        console.log("KEY PRESSED:", event.key);
+        /*
+         * Start timer on first character.
+         */
+        if (!started) {
 
+            startTimer();
 
-        /* Backspace */
-
-        if (event.key === "Backspace") {
-
-            event.preventDefault();
-
-            return;
         }
 
+        /*
+         * Update statistics.
+         */
+        renderPassage();
 
-        /* Ignore special keys */
+        updateAccuracy();
 
-        if (
-            event.key === "Shift" ||
-            event.key === "Control" ||
-            event.key === "Alt" ||
-            event.key === "Meta" ||
-            event.key === "Tab" ||
-            event.key === "Escape" ||
-            event.key === "Enter" ||
-            event.key.startsWith("Arrow")
-        ) {
-            return;
-        }
+        updateCharacterStats();
 
+        updateWPM();
 
-        /* Normal character */
-        if (event.key.length === 1) {
+        /*
+         * If the passage is complete,
+         * load another passage while
+         * keeping the timer running.
+         */
+        if (typedText.length === passage.length) {
 
-            /* Add typed character */
+            selectRandomPassage();
 
-            typedText += event.key;
+            typedText = "";
 
-            totalTypedCharacters++;
-
-            /* Check if the character is correct */
-
-            const currentIndex =
-                typedText.length - 1;
-
-            if (event.key === passage[currentIndex]) {
-
-                totalCorrectCharacters++;
-
-            }
-
-            console.log(
-                "TYPED:",
-                typedText
-            );
-
-
-            /* Start timer on first character */
-
-            if (!started) {
-
-                startTimer();
-
-            }
-
-
-            /* Update statistics */
+            typingInput.value = "";
 
             renderPassage();
 
-            updateAccuracy();
-
-            updateCharacterStats();
-
-            updateWPM();
-
-
-            /* Check if passage is complete */
-
-            if (typedText.length === passage.length) {
-
-                setTimeout(function () {
-
-                    selectRandomPassage();
-
-                    typedText = "";
-
-                    renderPassage();
-
-                }, 100);
-
-            }
-
         }
 
-    });
+    }
+
+    /*
+     * Keep the textarea synchronized
+     * with KeyGati's internal text.
+     */
+    typingInput.value = typedText;
+
+});
 
 
-    /* ================================
-       INITIAL STATE
-    ================================ */
+/*
+ * Focus the typing input when the
+ * user clicks the test area.
+ */
+document.addEventListener("click", function (event) {
+
+    if (event.target.closest("button")) {
+        return;
+    }
+
+    focusTypingInput();
+
+});
+
+
+/*
+ * Initial focus.
+ */
+focusTypingInput();
+
+
+/* ================================
+INITIAL STATE
+================================ */
 
     timeValue.textContent = testDuration + "s";
 

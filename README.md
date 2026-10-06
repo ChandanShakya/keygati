@@ -4,7 +4,7 @@
 
 ## 🌐 Live Website
 
-**[Visit KeyGati](https://prabindangol618.github.io/keygati/)**
+**[Visit KeyGati](https://keygati.com/)**
 
 ## ⌨️ Typing Tests
 

@@ -16,9 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const typingText =
         document.getElementById("typing-text");
 
-    const isTouchDevice =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0;
+    const isMobileDevice =
+        /Android|iPhone|iPad|iPod|Mobile/i.test(
+            navigator.userAgent
+        );
 
     const wpmValue =
         document.getElementById("wpm-value");
@@ -931,7 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     typingInput.addEventListener("input", function (event) {
 
-        if (!isTouchDevice) {
+        if (!isMobileDevice) {
             return;
         }
 
@@ -974,7 +975,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("keydown", function (event) {
 
-        if (isTouchDevice) {
+        if (isMobileDevice) {
             return;
         }
 
@@ -1023,7 +1024,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function focusTypingInput() {
 
-        if (!testFinished && isTouchDevice) {
+        if (!testFinished && isMobileDevice) {
 
             typingInput.focus();
 
@@ -1038,7 +1039,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("click", function (event) {
 
-        if (!isTouchDevice) {
+        if (!isMobileDevice) {
             return;
         }
 

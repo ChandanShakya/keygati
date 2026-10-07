@@ -803,169 +803,139 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-       // ================================
-    // Mobile + Keyboard Input
-    // ================================
+     // ================================
+// Mobile + Keyboard Input
+// ================================
 
-    function focusTypingInput() {
+function focusTypingInput() {
 
-        if (!practiceFinished) {
-            typingInput.focus();
-        }
+    if (!practiceFinished) {
+        typingInput.focus();
+    }
 
+}
+
+
+typingInput.addEventListener("keydown", (event) => {
+
+    // Prevent Backspace and Delete
+    if (
+        event.key === "Backspace" ||
+        event.key === "Delete"
+    ) {
+        event.preventDefault();
+    }
+
+});
+
+
+typingInput.addEventListener("input", () => {
+
+    if (practiceFinished) {
+
+        typingInput.value =
+            typedText;
+
+        return;
     }
 
 
-    typingInput.addEventListener("input", () => {
-
-        if (practiceFinished) {
-
-            typingInput.value =
-                typedText;
-
-            return;
-        }
+    const newValue =
+        typingInput.value;
 
 
-        const newValue =
-            typingInput.value;
+    // ================================
+    // New Characters
+    // ================================
+
+    const newCharacters =
+        newValue.slice(typedText.length);
 
 
-        // ================================
-        // Backspace / Deletion
-        // ================================
-
-        if (newValue.length < typedText.length) {
-
-            if (typedText.length === 0) {
-
-                typingInput.value = "";
-
-                return;
-            }
-
-
-            const removedIndex =
-                typedText.length - 1;
-
-            const targetText =
-                getTargetText();
-
-            const removedCharacter =
-                typedText[removedIndex];
-
-            const expectedCharacter =
-                targetText[removedIndex];
-
-
-            typedText =
-                typedText.slice(0, -1);
-
-            totalTypedCharacters--;
-
-
-            if (removedCharacter === expectedCharacter) {
-
-                totalCorrectCharacters--;
-
-            }
-
-
-            typingInput.value =
-                typedText;
-
-
-            updateCharacterDisplay();
-            updateStats();
-            updateProgress();
-
-            return;
-        }
-
-
-        // ================================
-        // New Characters
-        // ================================
-
-        const newCharacters =
-            newValue.slice(typedText.length);
-
-
-        if (newCharacters.length === 0) {
-            return;
-        }
-
-
-        const targetText =
-            getTargetText();
-
-
-        for (const character of newCharacters) {
-
-            if (typedText.length >= targetText.length) {
-                break;
-            }
-
-
-            // ================================
-            // Start Timer
-            // ================================
-
-            if (!practiceStarted) {
-
-                practiceStarted = true;
-
-                startTime = Date.now();
-
-            }
-
-
-            // ================================
-            // Check Character
-            // ================================
-
-            const currentIndex =
-                typedText.length;
-
-            const expectedCharacter =
-                targetText[currentIndex];
-
-
-            typedText += character;
-
-            totalTypedCharacters++;
-
-
-            if (character === expectedCharacter) {
-
-                totalCorrectCharacters++;
-
-            }
-
-
-            // ================================
-            // Update UI
-            // ================================
-
-            updateCharacterDisplay();
-
-            updateStats();
-
-            updateProgress();
-
-            checkSetCompletion();
-
-        }
-
+    if (newCharacters.length === 0) {
 
         /*
-         * Keep the hidden textarea
-         * synchronized with typedText.
+         * If the browser somehow removed
+         * characters, immediately restore
+         * the current typing position.
          */
         typingInput.value =
             typedText;
 
-    });
+        return;
+    }
+
+
+    const targetText =
+        getTargetText();
+
+
+    for (const character of newCharacters) {
+
+        if (typedText.length >= targetText.length) {
+            break;
+        }
+
+
+        // ================================
+        // Start Timer
+        // ================================
+
+        if (!practiceStarted) {
+
+            practiceStarted = true;
+
+            startTime = Date.now();
+
+        }
+
+
+        // ================================
+        // Check Character
+        // ================================
+
+        const currentIndex =
+            typedText.length;
+
+        const expectedCharacter =
+            targetText[currentIndex];
+
+
+        typedText += character;
+
+        totalTypedCharacters++;
+
+
+        if (character === expectedCharacter) {
+
+            totalCorrectCharacters++;
+
+        }
+
+
+        // ================================
+        // Update UI
+        // ================================
+
+        updateCharacterDisplay();
+
+        updateStats();
+
+        updateProgress();
+
+        checkSetCompletion();
+
+    }
+
+
+    /*
+     * Keep the hidden textarea
+     * synchronized with typedText.
+     */
+    typingInput.value =
+        typedText;
+
+});
 
 
     // ================================
